@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<playlist>
+	<track>
+		<file>media/video1.mp4</file>
+		<title>Video 1</title>
+		<image>images/video1.jpg</image>
+	</track>
+	<track>
+		<file>media/video2.mp4</file>
+		<title>Video 2</title>
+		<image>images/video2.jpg</image>
+	</track>
+	<track>
+		<file>media/video3.mp4</file>
+		<title>Video 3</title>
+		<image>images/video3.jpg</image>
+	</track>
+	<track>
+		<file>media/video4.mp4</file>
+		<title>Video 4</title>
+		<image>images/video4.jpg</image>
+	</track>
+	<track>
+		<file>media/video5.mp4</file>
+		<title>Video 5</title>
+		<image>images/video5.jpg</image>
+	</track>
+</playlist>

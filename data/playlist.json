@@ -1,0 +1,29 @@
+{
+	"tracks": [
+		{
+			"file": "media/video1.mp4",
+			"title": "Video 1",
+			"image": "images/video1.jpg"
+		},
+		{
+			"file": "media/video2.mp4",
+			"title": "Video 2",
+			"image": "images/video2.jpg"
+		},
+		{
+			"file": "media/video3.mp4",
+			"title": "Video 3",
+			"image": "images/video3.jpg"
+		},
+		{
+			"file": "media/video4.mp4",
+			"title": "Video 4",
+			"image": "images/video4.jpg"
+		},
+		{
+			"file": "media/video5.mp4",
+			"title": "Video 5",
+			"image": "images/video5.jpg"
+		}
+	]
+}
