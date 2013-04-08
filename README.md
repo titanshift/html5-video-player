@@ -34,7 +34,15 @@ Twitter: [@jaspervalero](http://twitter.com/jaspervalero)
 
 #### Production vs. Development
 
-Description of how to use production (minified) vs development code to be put here...
+For your convenience we provide both a development and production versions of our code. 
+
+#####Development Version
+
+Fully commented and unminified code. Allows you to easily see the innerworkings of the player. You can also add to the existing functionality much easier with this version as well. The development version of the code can be found in the *development/* directory.
+
+#####Production Version
+ 
+Optimized for file size and performance and is ready for use in live applications. The production version of the code can be found in the main *css/* and *js/* directories of the project.
 
 
 ### Changelog
@@ -54,6 +62,11 @@ IMPORTANT :: This project uses uses "[Semantic Versioning](http://semver.org)". 
 ---
 
 * Development version
-* 
+* Working configurable video player
+* Custom width/height
+* Toggle autoplay
+* Toggle display of controls
+* Playlist ingestion, supports JSON, XML and MRSS
+* Horizontal swipe events for loading next/prev
 
 ---
