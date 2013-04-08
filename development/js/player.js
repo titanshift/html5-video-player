@@ -10,7 +10,17 @@ $(function() {
 	// Enable strict mode - best practice
 	'use strict';
 
-/* _____ PLAYER CONFIGURATION _____________________________________ */
+/* _____ Extend jQuery Functionality _______________________________________ */
+
+	/* $.filterNode ()
+	Allows for quick parsing of XML nodes */
+	$.fn.filterNode = function( nodeName ) {
+		return this.find( '*' ).filter( function() {
+			return this.nodeName === nodeName;
+		});
+	};
+
+/* _____ PLAYER CONFIGURATION ______________________________________________ */
 
 	var Player = {
 
@@ -18,10 +28,11 @@ $(function() {
 
 		// Change this to fit your application $( 'your-div-class-name' )
 		playerDiv: $( '.blinkx-player' ),
-		/* URL to the JSON or XML playlist, should return valid JSON or XML. You will need to also grant access rights within your Tizen application's config.xml to allow access to the domain you set. */
-		playlistURL: 'data/playlist.json',
-		// Must match the data type of your playlist: 'json' or 'xml'
-		dataType: 'json',
+		/* URL to the JSON, XML or MRSS playlist, should return valid JSON, XML or MRSS. Please view the example playlists for JSON, XML or MRSS for the appropriate structure. You can find more information about MRSS at: http://www.rssboard.org/media-rss. You will need to also grant access rights within your Tizen application's config.xml to allow access to the domain for the URL you are using. */
+		/* Note: Playlist structure and support has been kept basic, to allow for easier adaption to many different projects. You will need to add additional functionality if your application requires more. */
+		playlistURL: 'data/playlist-mrss.xml',
+		// Must match the data type of your playlist: 'json', 'xml' or 'mrss'
+		dataType: 'mrss',
 		playerWidth: '320',
 		playerHeight: '180',
 		// True if you want player controls displayed, false if not
@@ -66,12 +77,13 @@ $(function() {
 			// Listen for click event on video player element and start playback
 			this.player.bind( 'click', function() {
 				this.play();
+				self.player.unbind( 'click' );
 			});
 			this.playerDiv.siblings( '.test' ).find( '.prev' ).bind( 'click', function() {
 				console.log( 'Prev' );
 				self.loadPreviousVideo();
 			});
-			this.playerDiv.siblings( '.test').find( '.next' ).bind( 'click', function() {
+			this.playerDiv.siblings( '.test' ).find( '.next' ).bind( 'click', function() {
 				console.log( 'Next' );
 				self.loadNextVideo();
 			});
@@ -82,13 +94,15 @@ $(function() {
 					self.loadNextVideo();
 				});
 			}
+			// Listen for swipe events
+			this.player.touchSwipeLeft( this.onSwipeLeft );
+			this.player.touchSwipeRight( this.onSwipeRight );
 		},
 		fetchPlaylist: function() {
 			var self = this;
 			// Fetch the playlist via AJAX
 			$.ajax({
-				url: this.playlistURL,
-				dataType: this.dataType
+				url: this.playlistURL
 			})
 			.done( function( playlist ) {
 				// Determine number of items fetched from JSON or XML
@@ -96,8 +110,10 @@ $(function() {
 				// Store playlist in playlist var
 				if( self.dataType.toLowerCase() === 'json' ) {
 					self.playlist = playlist;
-				} else if ( self.dataType.toLowerCase() === 'xml' ) {
+				} else if( self.dataType.toLowerCase() === 'xml' ) {
 					self.playlist = self.xmlToJson( playlist );
+				} else if( self.dataType.toLowerCase() === 'mrss' ) {
+					self.playlist = self.mrssToJson( playlist );
 				}
 				self.loadFirstVideo();
 				// Output success message with number items fetched
@@ -115,9 +131,12 @@ $(function() {
 			if( this.dataType.toLowerCase() === 'json' ) {
 				this.numPlaylistItems = playlist.tracks.length;
 				return playlist.tracks.length;
-			} else if ( this.dataType.toLowerCase() === 'xml' ) {
+			} else if( this.dataType.toLowerCase() === 'xml' ) {
 				this.numPlaylistItems = $( playlist ).find( 'track' ).length;
 				return $( playlist ).find( 'track' ).length;
+			} else if( this.dataType.toLowerCase() === 'mrss' ) {
+				this.numPlaylistItems = $( playlist ).find( 'item' ).length;
+				return $( playlist ).find( 'item' ).length;
 			}
 		},
 		loadFirstVideo: function() {
@@ -130,6 +149,7 @@ $(function() {
 		},
 		loadNextVideo: function() {
 			var self = this;
+			console.log( this );
 			this.currentPosition = this.currentPosition + 1;
 			if( this.currentPosition > ( this.numPlaylistItems - 1 ) ) {
 				this.currentPosition = 0;
@@ -150,24 +170,50 @@ $(function() {
 				'poster': self.playlist.tracks[ this.currentPosition ].image
 			});
 		},
-		xmlToJson: function( xml ) {
-			var
-				self = this,
-				json = {
-					'tracks': []
-				}
-			;
+		onSwipeLeft: function() {
+			Player.loadNextVideo();
+			console.log( 'Swipe Left - Load Next Video' );
+		},
+		onSwipeRight: function() {
+			Player.loadPreviousVideo();
+			console.log( 'Swipe Right - Load Previous Video' );
+		},
+		mrssToJson: function( mrss ) {
+			var json = {
+				'tracks': []
+			};
 			for( var i = 0; i < this.numPlaylistItems; i++ ) {
 				var
-					track = $( xml ).find( 'track' )[ i ],
-					file = $( track ).find( 'file' ).text(),
-					title = $( track ).find( 'title' ).text(),
-					image = $( track ).find( 'image' ).text()
+					item = $( mrss ).filterNode( 'item' )[ i ],
+					file = $( item ).filterNode( 'media:content' ).attr( 'url' ),
+					title = $( item ).filterNode( 'media:title' ).text(),
+					image = $( item ).filterNode( 'media:thumbnail' ).attr( 'url' )
 				;
 				json.tracks[ i ] = {
 					'file': file,
 					'title': title,
 					'image': image
+				};
+			}
+			return json;
+		},
+		xmlToJson: function( xml ) {
+			var json = {
+				'tracks': []
+			};
+			for( var i = 0; i < this.numPlaylistItems; i++ ) {
+				var
+					track = $( xml ).filterNode( 'track' )[ i ],
+					file = $( track ).filterNode( 'file' ).text(),
+					title = $( track ).filterNode( 'title' ).text(),
+					image = $( track ).filterNode( 'image' ).text(),
+					thumb = $( track ).filterNode( 'thumb' ).text()
+				;
+				json.tracks[ i ] = {
+					'file': file,
+					'title': title,
+					'image': image,
+					'thumb': thumb
 				};
 			}
 			return json;
