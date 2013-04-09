@@ -30,7 +30,7 @@ $(function() {
 		playerDiv: $( '.blinkx-player' ),
 		/* URL to the JSON, XML or MRSS playlist, should return valid JSON, XML or MRSS. Please view the example playlists for JSON, XML or MRSS for the appropriate structure. You can find more information about MRSS at: http://www.rssboard.org/media-rss. You will need to also grant access rights within your Tizen application's config.xml to allow access to the domain for the URL you are using. */
 		/* Note: Playlist structure and support has been kept basic, to allow for easier adaption to many different projects. You will need to add additional functionality if your application requires more. */
-		playlistURL: 'data/playlist-mrss.xml',
+		playlistURL: 'examples/playlist-mrss.xml',
 		// Must match the data type of your playlist: 'json', 'xml' or 'mrss'
 		dataType: 'mrss',
 		/* Player width and height should ideally maintain the aspect ratio of the video you're playing */
@@ -42,15 +42,15 @@ $(function() {
 		autoplayEnabled: false,
 		// Start playing the next video once a video completes, autoplayEnabled must be set to true for this feature to work properly
 		autoplayNext: false,
-		// True if you want swipe events: left = move to next video / right = move to prev
+		// True if you want swipe events: left = move to next video / right = move to prev. You will need to include the blinkx swipe plugin if you have this enabled.
 		horizontalSwipeEnabled: true,
 		/* Choose where you'd like your thumbnail playlist to appear. Available options: 'top', 'bottom', 'left', 'right' or 'none' (no thumbs displayed) */
 		thumbnailLayout: 'bottom',
 
 		/* _____ END CONFIGURABLE PLAYER OPTIONS _____ */
 
-		/* Non-configurable properties used by player
-		currentPosition: null,
+		// Non-configurable properties used by player
+		currentPosition: 0,
 		numPlaylistItems: null,
 		player: null,
 		playlist: null,
@@ -74,16 +74,16 @@ $(function() {
 				// Horizontal layout
 				if( this.thumbnailLayout === 'top' || this.thumbnailLayout === 'bottom' ) {
 					// Determine thumbnail dimensions based on width of player
-					this.getHorizontalThumbWidth();
-					this.getHorizontalThumbHeight();
+					this.setHorizontalThumbWidth();
+					this.setHorizontalThumbHeight();
 					// Set height offset
 					this.thumbnailHeightOffset = this.thumbnailHeight;
 					console.log( 'DIMS: ' + this.thumbnailWidth + ' x ' + this.thumbnailHeight );
 				} // Vertical layout
 					else if( this.thumbnailLayout === 'left' || this.thumbnailLayout === 'right' ) {
 					// Determine thumbnail dimensions based on height of player
-					this.getVerticalThumbHeight();
-					this.getVerticalThumbWidth();
+					this.setVerticalThumbHeight();
+					this.setVerticalThumbWidth();
 					// Set height offset
 					this.thumbnailWidthOffset = this.thumbnailWidth + 3;
 					console.log( 'DIMS: ' + this.thumbnailWidth + ' x ' + this.thumbnailHeight );
@@ -144,14 +144,14 @@ $(function() {
 				this.play();
 				self.player.unbind( 'click' );
 			});
-			this.playerDiv.siblings( '.test' ).find( '.prev' ).bind( 'click', function() {
-				console.log( 'Prev' );
-				self.loadPreviousVideo();
-			});
-			this.playerDiv.siblings( '.test' ).find( '.next' ).bind( 'click', function() {
-				console.log( 'Next' );
-				self.loadNextVideo();
-			});
+			// this.playerDiv.siblings( '.test' ).find( '.prev' ).bind( 'click', function() {
+			// 	console.log( 'Prev' );
+			// 	self.loadPreviousVideo();
+			// });
+			// this.playerDiv.siblings( '.test' ).find( '.next' ).bind( 'click', function() {
+			// 	console.log( 'Next' );
+			// 	self.loadNextVideo();
+			// });
 			// Listen for video ended event, and move to next video if feature is enabled
 			if( this.autoplayNext ) {
 				this.player.bind( 'ended', function() {
@@ -184,7 +184,7 @@ $(function() {
 				'height': this.thumbnailHeight
 			});
 			// Set active state on first thumb
-			this.thumbsDiv.find( 'ul li img' ).filter( ':first' ).addClass( 'active' );
+			this.setActiveThumb();
 
 			// Event listeners
 			this.thumbsDiv.find( 'ul li img' ).each( function( i ) {
@@ -235,12 +235,6 @@ $(function() {
 				// Optional: Add custom actions you want to occur with every fetch here
 			});
 		},
-		getHorizontalThumbWidth: function() {
-			this.thumbnailWidth = ( this.playerWidth - ( this.thumbnailMargin * 4 ) ) / 5;
-		},
-		getHorizontalThumbHeight: function() {
-			this.thumbnailHeight =  ( this.thumbnailWidth / this.thumbnailAspectRatio );
-		},
 		getNumPlaylistItems: function( playlist ) {
 			if( this.dataType.toLowerCase() === 'json' ) {
 				this.numPlaylistItems = playlist.tracks.length;
@@ -252,12 +246,6 @@ $(function() {
 				this.numPlaylistItems = $( playlist ).find( 'item' ).length;
 				return $( playlist ).find( 'item' ).length;
 			}
-		},
-		getVerticalThumbWidth: function() {
-			this.thumbnailWidth = ( this.thumbnailHeight * this.thumbnailAspectRatio );
-		},
-		getVerticalThumbHeight: function() {
-			this.thumbnailHeight = ( this.playerHeight - ( this.thumbnailMargin * 4 ) ) / 5;
 		},
 		calculateAspectRatio: function( w, h ) {
 			this.thumbnailAspectRatio = w / h;
@@ -272,7 +260,6 @@ $(function() {
 		},
 		loadNextVideo: function() {
 			var self = this;
-			console.log( this );
 			this.currentPosition = this.currentPosition + 1;
 			if( this.currentPosition > ( this.numPlaylistItems - 1 ) ) {
 				this.currentPosition = 0;
@@ -281,6 +268,8 @@ $(function() {
 				'src': self.playlist.tracks[ this.currentPosition ].file,
 				'poster': self.playlist.tracks[ this.currentPosition ].image
 			});
+			// Update active thumbnail
+			this.setActiveThumb();
 		},
 		loadPreviousVideo: function() {
 			var self = this;
@@ -292,6 +281,8 @@ $(function() {
 				'src': self.playlist.tracks[ this.currentPosition ].file,
 				'poster': self.playlist.tracks[ this.currentPosition ].image
 			});
+			// Update active thumbnail
+			this.setActiveThumb();
 		},
 		onSwipeLeft: function() {
 			Player.loadNextVideo();
@@ -319,6 +310,22 @@ $(function() {
 				};
 			}
 			return json;
+		},
+		setActiveThumb: function() {
+			$( '.active' ).removeClass( 'active' );
+			this.thumbsDiv.find( 'ul li img:eq( ' + this.currentPosition +' )' ).addClass( 'active' );
+		},
+		setHorizontalThumbWidth: function() {
+			this.thumbnailWidth = ( this.playerWidth - ( this.thumbnailMargin * 4 ) ) / 5;
+		},
+		setHorizontalThumbHeight: function() {
+			this.thumbnailHeight =  ( this.thumbnailWidth / this.thumbnailAspectRatio );
+		},
+		setVerticalThumbWidth: function() {
+			this.thumbnailWidth = ( this.thumbnailHeight * this.thumbnailAspectRatio );
+		},
+		setVerticalThumbHeight: function() {
+			this.thumbnailHeight = ( this.playerHeight - ( this.thumbnailMargin * 4 ) ) / 5;
 		},
 		xmlToJson: function( xml ) {
 			var json = {
