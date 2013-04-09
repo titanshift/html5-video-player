@@ -68,5 +68,7 @@ IMPORTANT :: This project uses uses "[Semantic Versioning](http://semver.org)". 
 * Toggle display of controls
 * Playlist ingestion, supports JSON, XML and MRSS
 * Horizontal swipe events for loading next/prev
+* Dynamic thumbnail layout and sizing based on the size of the player with options for 'top', 'bottom', 'left', 'right' or 'none'
+* Videos can be selected by clicking on thumbnails
 
 ---

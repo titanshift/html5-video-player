@@ -4,3 +4,45 @@
 	Website: www.blinkx.com
 	@author Jasper Valero
 */
+.blinkx-player {
+	.thumbs {
+		ul {
+			margin: 0;
+			padding: 0;
+			li {
+				list-style: none;
+				.active {
+					opacity: 0.3;
+				}
+			}
+			li:last-child {
+				margin-right: 0;
+				margin-bottom: 0;
+			}
+		}
+	}
+	.thumbs-top {
+		ul li {
+			float: left;
+			margin: 0 5px 2px 0;
+		}
+	}
+	.thumbs-bottom {
+		ul li {
+			float: left;
+			margin: 0 5px 0 0;
+		}
+	}
+	.thumbs-left {
+		float: left;
+		ul li {
+			margin: 0 2px 5px 0;
+		}
+	}
+	.thumbs-right {
+		float: right;
+		ul li {
+			margin: 0 0 5px 2px;
+		}
+	}
+}
