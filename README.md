@@ -30,7 +30,7 @@ Developer: Jasper Valero
 
 #### Dependencies
 
-* [jQuery v1.9.1](http://jquery.com/)
+* [jQuery v1.8.2](http://jquery.com/)
 
 #### Optional
 
