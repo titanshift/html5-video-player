@@ -58,7 +58,7 @@ IMPORTANT :: This project uses uses "[Semantic Versioning](http://semver.org)". 
 
 ---
 
-* Initial launch version
+* Initial release version
 
 ---
 
