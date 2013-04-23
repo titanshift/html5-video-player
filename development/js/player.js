@@ -1,10 +1,23 @@
 /*
-	Project: blinkx/Tizen HTML5 Video Player
-	This open source project was created by blinkx for the Tizen community. It is released under the ??? license.
+	Project: blinkx HTML5 Video Player
+	The blinkx Video Player is an HTML5 player with playlist functionality, developed for the open source community.
 	Website: www.blinkx.com
 	@author Jasper Valero
-*/
 
+	Copyright 2013 blinkx
+
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+
+			http://www.apache.org/licenses/LICENSE-2.0
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+*/
 $(function() {
 
 	// Enable strict mode - best practice
@@ -12,8 +25,8 @@ $(function() {
 
 /* _____ EXTEND JQUERY FUNCTIONALITY _______________________________________ */
 
-	/* $.filterNode ()
-	Allows for quick parsing of XML nodes */
+	/* $.filterNode()
+	Allows quick parsing of XML nodes (including those with namespaces) */
 	$.fn.filterNode = function( nodeName ) {
 		return this.find( '*' ).filter( function() {
 			return this.nodeName === nodeName;
@@ -26,10 +39,10 @@ $(function() {
 
 		/* _____ BEGIN CONFIGURABLE PLAYER OPTIONS _____ */
 
-		// Change this to fit your application $( 'your-div-class-name' )
+		// Change this to fit your application $( 'your-div-class-name' ). This is the div the player will be loaded into.
 		playerDiv: $( '.blinkx-player' ),
-		/* URL to the JSON, XML or MRSS playlist, should return valid JSON, XML or MRSS. Please view the example playlists for JSON, XML or MRSS for the appropriate structure. You can find more information about MRSS at: http://www.rssboard.org/media-rss. You will need to also grant access rights within your Tizen application's config.xml to allow access to the domain for the URL you are using. */
-		/* Note: Playlist structure and support has been kept basic, to allow for easier adaption to many different projects. You will need to add additional functionality if your application requires more. */
+		/* URL to the JSON, XML or MRSS playlist, should return valid JSON, XML or MRSS. Please view the example playlists for JSON, XML or MRSS for the appropriate structure. You can find more information about MRSS at: http://www.rssboard.org/media-rss. You will need to also grant access rights within your Tizen application's config.xml file to allow access to the domain for the URL you'll be using. */
+		/* Note: Playlist structure and support has been kept basic, to allow for easier adaption to a variety of projects. You will need to add additional functionality if your application requires more. */
 		playlistURL: 'examples/playlist-mrss.xml',
 		// Must match the data type of your playlist: 'json', 'xml' or 'mrss'
 		dataType: 'mrss',
@@ -42,7 +55,7 @@ $(function() {
 		autoplayEnabled: false,
 		// Start playing the next video once a video completes, autoplayEnabled must be set to true for this feature to work properly
 		autoplayNext: false,
-		// True if you want swipe events: left = move to next video / right = move to prev. You will need to include the blinkx swipe plugin if you have this enabled.
+		// True if you want swipe events: swipe left = move to next video / swipe right = move to previous video. You will need to include the blinkx swipe plugin if you plan to enable this.
 		horizontalSwipeEnabled: true,
 		/* Choose where you'd like your thumbnail playlist to appear. Available options: 'top', 'bottom', 'left', 'right' or 'none' (no thumbs displayed) */
 		thumbnailLayout: 'bottom',
@@ -78,7 +91,6 @@ $(function() {
 					this.setHorizontalThumbHeight();
 					// Set height offset
 					this.thumbnailHeightOffset = this.thumbnailHeight;
-					console.log( 'DIMS: ' + this.thumbnailWidth + ' x ' + this.thumbnailHeight );
 				} // Vertical layout
 					else if( this.thumbnailLayout === 'left' || this.thumbnailLayout === 'right' ) {
 					// Determine thumbnail dimensions based on height of player
@@ -86,7 +98,6 @@ $(function() {
 					this.setVerticalThumbWidth();
 					// Set height offset
 					this.thumbnailWidthOffset = this.thumbnailWidth + 3;
-					console.log( 'DIMS: ' + this.thumbnailWidth + ' x ' + this.thumbnailHeight );
 				}
 			}
 
@@ -144,18 +155,9 @@ $(function() {
 				this.play();
 				self.player.unbind( 'click' );
 			});
-			// this.playerDiv.siblings( '.test' ).find( '.prev' ).bind( 'click', function() {
-			// 	console.log( 'Prev' );
-			// 	self.loadPreviousVideo();
-			// });
-			// this.playerDiv.siblings( '.test' ).find( '.next' ).bind( 'click', function() {
-			// 	console.log( 'Next' );
-			// 	self.loadNextVideo();
-			// });
 			// Listen for video ended event, and move to next video if feature is enabled
 			if( this.autoplayNext ) {
 				this.player.bind( 'ended', function() {
-					console.log( 'Video ended.' );
 					self.loadNextVideo();
 				});
 			}
@@ -166,9 +168,8 @@ $(function() {
 			}
 		},
 		addThumbs: function() {
-			var
-				self = this,
-				html = ''
+			var self = this,
+					html = ''
 			;
 			// Get reference to thumbs div
 			this.thumbsDiv = this.playerDiv.children( '.thumbs' );
@@ -189,9 +190,8 @@ $(function() {
 			// Event listeners
 			this.thumbsDiv.find( 'ul li img' ).each( function( i ) {
 				$( this ).bind( 'click', { index: i }, function( e ) {
-					var
-						$this = $( this ),
-						index = e.data.index
+					var $this = $( this ),
+							index = e.data.index
 					;
 					$( '.active' ).removeClass( 'active' );
 					$this.addClass( 'active' );
@@ -209,8 +209,6 @@ $(function() {
 				url: this.playlistURL
 			})
 			.done( function( playlist ) {
-				// Determine number of items fetched from JSON or XML
-				var numPlaylistItems = self.getNumPlaylistItems( playlist );
 				// Store playlist in playlist var
 				if( self.dataType.toLowerCase() === 'json' ) {
 					self.playlist = playlist;
@@ -224,12 +222,9 @@ $(function() {
 				if( this.thumbnailLayout !== 'none' ) {
 					self.addThumbs();
 				}
-				// Output success message with number items fetched
-				console.log( '' + numPlaylistItems + ' playlist items fetched successfully!' );
 			})
 			.fail( function() {
-				// Display console error message if fetch fails
-				console.error( 'There was a problem fetching the playlist. Please double check the playlistURL and dataType and try again.' );
+				// Optional: Add custom actions you want to occur if the request fails
 			})
 			.always( function() {
 				// Optional: Add custom actions you want to occur with every fetch here
@@ -286,22 +281,19 @@ $(function() {
 		},
 		onSwipeLeft: function() {
 			Player.loadNextVideo();
-			console.log( 'Swipe Left - Load Next Video' );
 		},
 		onSwipeRight: function() {
 			Player.loadPreviousVideo();
-			console.log( 'Swipe Right - Load Previous Video' );
 		},
 		mrssToJson: function( mrss ) {
 			var json = {
 				'tracks': []
 			};
 			for( var i = 0; i < this.numPlaylistItems; i++ ) {
-				var
-					item = $( mrss ).filterNode( 'item' )[ i ],
-					file = $( item ).filterNode( 'media:content' ).attr( 'url' ),
-					title = $( item ).filterNode( 'media:title' ).text(),
-					image = $( item ).filterNode( 'media:thumbnail' ).attr( 'url' )
+				var item = $( mrss ).filterNode( 'item' )[ i ],
+						file = $( item ).filterNode( 'media:content' ).attr( 'url' ),
+						title = $( item ).filterNode( 'media:title' ).text(),
+						image = $( item ).filterNode( 'media:thumbnail' ).attr( 'url' )
 				;
 				json.tracks[ i ] = {
 					'file': file,
@@ -313,7 +305,7 @@ $(function() {
 		},
 		setActiveThumb: function() {
 			$( '.active' ).removeClass( 'active' );
-			this.thumbsDiv.find( 'ul li img:eq( ' + this.currentPosition +' )' ).addClass( 'active' );
+			this.thumbsDiv.find( 'ul li img' ).eq( this.currentPosition ).addClass( 'active' );
 		},
 		setHorizontalThumbWidth: function() {
 			this.thumbnailWidth = ( this.playerWidth - ( this.thumbnailMargin * 4 ) ) / 5;
@@ -332,12 +324,11 @@ $(function() {
 				'tracks': []
 			};
 			for( var i = 0; i < this.numPlaylistItems; i++ ) {
-				var
-					track = $( xml ).filterNode( 'track' )[ i ],
-					file = $( track ).filterNode( 'file' ).text(),
-					title = $( track ).filterNode( 'title' ).text(),
-					image = $( track ).filterNode( 'image' ).text(),
-					thumb = $( track ).filterNode( 'thumb' ).text()
+				var track = $( xml ).filterNode( 'track' )[ i ],
+						file = $( track ).filterNode( 'file' ).text(),
+						title = $( track ).filterNode( 'title' ).text(),
+						image = $( track ).filterNode( 'image' ).text(),
+						thumb = $( track ).filterNode( 'thumb' ).text()
 				;
 				json.tracks[ i ] = {
 					'file': file,
@@ -352,7 +343,5 @@ $(function() {
 
 	// Initialize Player object
 	Player.init();
-
-/* _____ INITIAL PLAYER SETUP ______________________________________________ */
 
 });

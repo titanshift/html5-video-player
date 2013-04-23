@@ -1,56 +1,31 @@
 /*
-	Project: blinkx/Tizen Swipe Events
-	This open source project was created by blinkx for the Tizen community. It is released under the ??? license.
+	Project: blinkx Swipe Events Library
+	The blinkx Video Player is an HTML5 player with playlist functionality, developed for the open source community.
 	Website: www.blinkx.com
 	@author Jasper Valero
+
+	Copyright 2013 blinkx
+
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+
+			http://www.apache.org/licenses/LICENSE-2.0
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
 */
-
-/*
-* Stripped the touch swipe logic from jQuery Mobile and turned it into this plugin
-* Copyright 2012 (c) CodingJack - http://codecanyon.net/user/CodingJack
-* Dual licensed under the MIT or GPL Version 2 licenses.
-*/
-
-/* USAGE
-
-// listen both left and right signals, the String "left" or "right" will be passed as an argument to the callback
-* $(element).touchSwipe(callback);
-
-// second parameter is optional and will invoke "event.stopImmediatePropagation()"
-// use this if you need to prevent other mouse events from firing on the same object when a swipe gesture is detected
-* $(element).touchSwipe(callback, true);
-
-// listen for only the left swipe event
-* $(element).touchSwipeLeft(callback);
-
-// listen for only the right swipe event
-* $(element).touchSwipeRight(callback);
-
-// unbind both left and right swipe events
-* $(element).unbindSwipe();
-
-// unbind only left swipe event
-* $(element).unbindSwipeLeft();
-
-// unbind only right swipe event
-* $(element).unbindSwipeRight();
-
-
-// SPECIAL NOTES
-* all methods return "this" for chaining
-* before a plugin event is added, "unbind" is called first to make sure events are never erroneously duplicated
-
-*/
-
 ;(function( $ ) {
-	var
-		touchStartEvent,
-		touchStopEvent,
-		touchMoveEvent,
-		horizontalThreshold = 30,
-		verticalThreshold = 75,
-		scrollThreshold = 10,
-		durationThreshold = 1000
+	var touchStartEvent,
+			touchStopEvent,
+			touchMoveEvent,
+			horizontalThreshold = 30,
+			verticalThreshold = 75,
+			scrollThreshold = 10,
+			durationThreshold = 1000
 	;
 
 	if( 'ontouchend' in document ) {
@@ -131,22 +106,21 @@
 		$this.unbindSwipe( true ).bind( touchStartEvent, $this, touchStart );
 	}
 	function touchStart( event ) {
-		var
-			time = new Date().getTime(),
-			data = event.originalEvent.touches ? event.originalEvent.touches[0] : event,
-			$this = $(this).bind( touchMoveEvent, $this, moveHandler ).one( touchStopEvent, touchEnded ),
-			pageX = data.pageX,
-			pageY = data.pageY,
-			newPageX,
-			newPageY,
-			newTime
+		var time = new Date().getTime(),
+				data = event.originalEvent.touches ? event.originalEvent.touches[0] : event,
+				$this = $(this).bind( touchMoveEvent, $this, moveHandler ).one( touchStopEvent, touchEnded ),
+				pageX = data.pageX,
+				pageY = data.pageY,
+				newPageX,
+				newPageY,
+				newTime
 		;
 
 		if( $this.data( 'stopPropagation' ) ) {
 			event.stopImmediatePropagation();
 		}
 
-		function touchEnded( event ) {
+		function touchEnded() {
 
 			$this.unbind( touchMoveEvent );
 
@@ -186,7 +160,9 @@
 					}
 				}
 				else {
-					if( Math.abs( pageX - newPageX ) > scrollThreshold ) event.preventDefault();
+					if( Math.abs( pageX - newPageX ) > scrollThreshold ) {
+						event.preventDefault();
+					}
 				}
 			}
 		}

@@ -3,37 +3,37 @@
 	<channel>
 		<item>
 			<title>Video 1</title>
-			<media:content url="media/video1.mp4" type="video/mp4" medium="video" expression="full">
+			<media:content url="http://cdn.blinkx.com/images/blinkx4/media/tizen/media/video1.mp4" type="video/mp4" medium="video" expression="full">
 				<media:title type="plain">Video 1</media:title>
-				<media:thumbnail url="images/video1.jpg" width="320" height="180" />
+				<media:thumbnail url="http://cdn.blinkx.com/images/blinkx4/media/tizen/images/video1.jpg" width="320" height="180" />
 			</media:content>
 		</item>
 		<item>
 			<title>Video 2</title>
-			<media:content url="media/video2.mp4" type="video/mp4" medium="video" expression="full">
+			<media:content url="http://cdn.blinkx.com/images/blinkx4/media/tizen/media/video2.mp4" type="video/mp4" medium="video" expression="full">
 				<media:title type="plain">Video 2</media:title>
-				<media:thumbnail url="images/video2.jpg" width="320" height="180" />
+				<media:thumbnail url="http://cdn.blinkx.com/images/blinkx4/media/tizen/images/video2.jpg" width="320" height="180" />
 			</media:content>
 		</item>
 		<item>
 			<title>Video 3</title>
-			<media:content url="media/video3.mp4" type="video/mp4" medium="video" expression="full">
+			<media:content url="http://cdn.blinkx.com/images/blinkx4/media/tizen/media/video3.mp4" type="video/mp4" medium="video" expression="full">
 				<media:title type="plain">Video 3</media:title>
-				<media:thumbnail url="images/video3.jpg" width="320" height="180" />
+				<media:thumbnail url="http://cdn.blinkx.com/images/blinkx4/media/tizen/images/video3.jpg" width="320" height="180" />
 			</media:content>
 		</item>
 		<item>
 			<title>Video 4</title>
-			<media:content url="media/video4.mp4" type="video/mp4" medium="video" expression="full">
+			<media:content url="http://cdn.blinkx.com/images/blinkx4/media/tizen/media/video4.mp4" type="video/mp4" medium="video" expression="full">
 				<media:title type="plain">Video 4</media:title>
-				<media:thumbnail url="images/video4.jpg" width="320" height="180" />
+				<media:thumbnail url="http://cdn.blinkx.com/images/blinkx4/media/tizen/images/video4.jpg" width="320" height="180" />
 			</media:content>
 		</item>
 		<item>
 			<title>Video 5</title>
-			<media:content url="media/video5.mp4" type="video/mp4" medium="video" expression="full">
+			<media:content url="http://cdn.blinkx.com/images/blinkx4/media/tizen/media/video5.mp4" type="video/mp4" medium="video" expression="full">
 				<media:title type="plain">Video 5</media:title>
-				<media:thumbnail url="images/video5.jpg" width="320" height="180" />
+				<media:thumbnail url="http://cdn.blinkx.com/images/blinkx4/media/tizen/images/video5.jpg" width="320" height="180" />
 			</media:content>
 		</item>
 	</channel>

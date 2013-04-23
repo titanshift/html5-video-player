@@ -1,20 +1,25 @@
-# blinkx/Tizen HTML5 Video Player
+#![blinkx Logo](http://cdn.blinkx.com/images/blinkx4/images/blinkx_logo_grey.png) HTML5 Video Player
 
-*HTML5 video player for the Tizen OS (Mobile). The project provides a working HTML5 player powered by JavaScript. It also features a 5 video playlist example.*
+*The blinkx Video Player is an HTML5 player with playlist functionality, developed for the open source community.*
 
 ### Project Info
 
-v0.1.0
+blinkx wanted to provide open source video player technology that allows the Tizen development community to easily add a fully functional video player to their application. Developers can build either a single-video player or multi-video experience. The open source code allows developers to easily copy and paste our lightweight HTML5 video player into their current or new projects.
 
-SDK: 2.0
+v1.0.0
+
+Tizen SDK: 2.0
 
 Publisher: blinkx
 
-Developer: Jasper Valero 
+Developer: Jasper Valero
 
-Email: [jvalero@blinkx.com](mailto:jvalero@blinkx.com)
+##### Features
 
-Twitter: [@jaspervalero](http://twitter.com/jaspervalero)
+* Built-in Player Template
+* Playlist - 5 Video Playlist
+* All Supported File Formats
+* Configurable Settings
 
 ##### Technology Used
 
@@ -57,18 +62,14 @@ IMPORTANT :: This project uses uses "[Semantic Versioning](http://semver.org)". 
 
 ---
 
-#####0.1.0
+### License
 
----
+Copyright 2013 blinkx
 
-* Development version
-* Working configurable video player
-* Custom width/height
-* Toggle autoplay
-* Toggle display of controls
-* Playlist ingestion, supports JSON, XML and MRSS
-* Horizontal swipe events for loading next/prev
-* Dynamic thumbnail layout and sizing based on the size of the player with options for 'top', 'bottom', 'left', 'right' or 'none'
-* Videos can be selected by clicking on thumbnails
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
 
----
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
