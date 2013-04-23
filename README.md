@@ -49,6 +49,17 @@ Fully commented and unminified code. Allows you to easily see the innerworkings 
  
 Optimized for file size and performance and is ready for use in live applications. The production version of the code can be found in the main *css/* and *js/* directories of the project.
 
+### Bugs & Issues
+
+Please use the GitHub issue tracker to submit any bugs or issues you may come across while using this player. 
+
+You may also submit feature requests this same way, however, there is no guarantee the feature request will be fulfilled.
+
+### Contributing
+
+We invite anyone and everyone from the community to submit pull requests if they'd like to contribute to the project. All submissions should use the same code format and be well commented. 
+
+*We do reserve the final decision on what gets added to the project.*
 
 ### Changelog
 
