@@ -211,7 +211,7 @@ $(function() {
 			.done( function( playlist ) {
 				// Store playlist in playlist var
 				if( self.dataType.toLowerCase() === 'json' ) {
-					self.playlist = playlist;
+					self.playlist = JSON.parse( playlist );
 				} else if( self.dataType.toLowerCase() === 'xml' ) {
 					self.playlist = self.xmlToJson( playlist );
 				} else if( self.dataType.toLowerCase() === 'mrss' ) {
