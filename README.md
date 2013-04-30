@@ -39,25 +39,25 @@ Developer: Jasper Valero
 
 #### Production vs. Development
 
-For your convenience we provide both a development and production versions of our code. 
+For your convenience we provide both a development and production versions of our code.
 
 #####Development Version
 
 Fully commented and unminified code. Allows you to easily see the innerworkings of the player. You can also add to the existing functionality much easier with this version as well. The development version of the code can be found in the *development/* directory.
 
 #####Production Version
- 
+
 Optimized for file size and performance and is ready for use in live applications. The production version of the code can be found in the main *css/* and *js/* directories of the project.
 
 ### Bugs & Issues
 
-Please use the GitHub issue tracker to submit any bugs or issues you may come across while using this player. 
+Please use the GitHub issue tracker to submit any bugs or issues you may come across while using this player.
 
 You may also submit feature requests this same way, however, there is no guarantee the feature request will be fulfilled.
 
 ### Contributing
 
-We invite anyone and everyone from the community to submit pull requests if they'd like to contribute to the project. All submissions should use the same code format and be well commented. 
+We invite anyone and everyone from the community to submit pull requests if they'd like to contribute to the project. All submissions should use the same code format and be well commented.
 
 *We do reserve the final decision on what gets added to the project.*
 
@@ -75,7 +75,7 @@ IMPORTANT :: This project uses uses "[Semantic Versioning](http://semver.org)". 
 
 ### License
 
-Copyright 2013 blinkx
+Copyright 2013 blinkx, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
 
