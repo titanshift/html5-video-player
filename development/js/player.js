@@ -150,11 +150,6 @@ $(function() {
 
 			/* _____ EVENT LISTENERS _____ */
 
-			// Listen for click event on video player element and start playback
-			this.player.bind( 'click', function() {
-				this.play();
-				self.player.unbind( 'click' );
-			});
 			// Listen for video ended event, and move to next video if feature is enabled
 			if( this.autoplayNext ) {
 				this.player.bind( 'ended', function() {
